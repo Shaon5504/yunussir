@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jumping Ball Game</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; background-color: #f4f4f4; }
+        canvas { background: #fff; display: block; margin: auto; }
+    </style>
+</head>
+<body>
+    <h2>Jumping Ball Game</h2>
+    <canvas id="gameCanvas" width="400" height="500"></canvas>
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");let ball = { x: 200, y: 400, radius: 15, dx: 2, dy: -5 };
+    let gravity = 0.2;
+    let isJumping = false;
+    
+    function drawBall() {
+        ctx.beginPath();
+        ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+        ctx.fillStyle = "blue";
+        ctx.fill();
+        ctx.closePath();
+    }
+    
+    function updateGame() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawBall();
+        
+        if (ball.y + ball.radius < canvas.height) {
+            ball.dy += gravity;
+        } else {
+            ball.dy = 0;
+            isJumping = false;
+        }
+        
+        ball.y += ball.dy;
+    }
+    
+    function jump() {
+        if (!isJumping) {
+            ball.dy = -6;
+            isJumping = true;
+        }
+    }
+    
+    canvas.addEventListener("click", jump);
+    
+    function gameLoop() {
+        updateGame();
+        requestAnimationFrame(gameLoop);
+    }
+    
+    gameLoop();
+</script>
+
+</body>
+</html>
